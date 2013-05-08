@@ -8,21 +8,22 @@
 
 #import <Foundation/Foundation.h>
 #import "BNRItem.h"
-#import "BNRContainer.h"
 
 int main(int argc, const char * argv[])
 {
 
     @autoreleasepool {
         NSMutableArray *items = [[NSMutableArray alloc] init];
-        for (int i = 0; i < 10; i++) {
-            BNRItem *p = [BNRItem randomItem];
-            [items addObject:p];
-        }
-        BNRContainer *container = [[BNRContainer alloc] initWithItems:items name:@"Container" serialNumber:@"12345"];
-        NSLog(@"%@",container);
+        BNRItem *backpack = [[BNRItem alloc] init];
+        [backpack setItemName:@"Backpack"];
+        [items addObject:backpack];
         
-        container = nil;
+        BNRItem *calculator = [[BNRItem alloc] init];
+        [calculator setItemName:@"Calculator"];
+        [items addObject:calculator];
+        
+        [backpack setContainedItem:calculator];
+        
         items = nil;
         
     }

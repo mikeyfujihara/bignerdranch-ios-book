@@ -95,4 +95,27 @@
     return newItem;
 }
 
+- (void)setContainedItem:(BNRItem *)item
+{
+    containedItem = item;
+    [item setContainer:self];
+}
+- (void)setContainer:(BNRItem *)i
+{
+    container = i;
+}
+- (BNRItem *)container
+{
+    return container;
+}
+- (BNRItem *)containedItem
+{
+    return containedItem;
+}
+
+- (void)dealloc
+{
+    NSLog(@"Destroyed: %@", self);
+}
+
 @end
