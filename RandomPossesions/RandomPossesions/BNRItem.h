@@ -18,6 +18,8 @@
 
 + (id)randomItem;
 
+- (id)initWithSerialNumber:(NSString *)sNumber itemName:(NSString *)name;
+
 - (id)initWithItemName:(NSString *)name valueInDollars:(int)value serialNumber:(NSString *)sNumber;
 
 - (void)setItemName:(NSString *)str;
