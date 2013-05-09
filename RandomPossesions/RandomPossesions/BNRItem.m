@@ -34,36 +34,8 @@
     return self;
 }
 
-- (void)setItemName:(NSString *)str
-{
-    itemName = str;
-}
--(NSString *)itemName {
-    return itemName;
-}
-
-- (void)setSerialNumber:(NSString *)str
-{
-    serialNumber = str;
-}
-- (NSString *)serialNumber
-{
-    return serialNumber;
-}
-
-- (void)setValueInDollars:(int)i
-{
-    valueInDollars = i;
-}
-- (int)valueInDollars
-{
-    return valueInDollars;
-}
-
-- (NSDate *)dateCreated
-{
-    return dateCreated;
-}
+@synthesize itemName;
+@synthesize containedItem, container, serialNumber, valueInDollars, dateCreated;
 
 - (NSString *)description
 {
@@ -99,18 +71,6 @@
 {
     containedItem = item;
     [item setContainer:self];
-}
-- (void)setContainer:(BNRItem *)i
-{
-    container = i;
-}
-- (BNRItem *)container
-{
-    return container;
-}
-- (BNRItem *)containedItem
-{
-    return containedItem;
 }
 
 - (void)dealloc
