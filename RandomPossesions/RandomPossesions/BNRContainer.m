@@ -9,6 +9,9 @@
 #import "BNRContainer.h"
 
 @implementation BNRContainer
+
+@synthesize subItems;
+
 - (id)initWithItems:(NSArray *)items name:(NSString *)name serialNumber:(NSString *)sNumber
 {
     int value = 0;
@@ -39,11 +42,7 @@
 
 - (NSString *)description
 {
-    NSString *descriptionStr = [[NSString alloc] initWithFormat:@"%@ (%@): Worth $%d, record on %@ with the items %@",itemName,serialNumber,valueInDollars,dateCreated,subitems];
+    NSString *descriptionStr = [[NSString alloc] initWithFormat:@"%@ (%@): Worth $%d, record on %@ with the items %@",[self itemName],[self serialNumber],[self valueInDollars],[self dateCreated], [self subItems]];
     return descriptionStr;
-}
-- (void)setSubItems:(NSArray *)items
-{
-    subitems = items;
 }
 @end

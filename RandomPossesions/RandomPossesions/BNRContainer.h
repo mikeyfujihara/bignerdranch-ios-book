@@ -9,10 +9,8 @@
 #import "BNRItem.h"
 
 @interface BNRContainer : BNRItem
-{
-    NSArray *subitems;
-}
+
 - (id)initWithItems:(NSArray *)items name:(NSString *)name serialNumber:(NSString *)sNumber;
-- (void)setSubItems:(NSArray *)items;
+@property (nonatomic, copy) NSArray *subItems;
 
 @end
