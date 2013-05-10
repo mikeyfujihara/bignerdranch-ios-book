@@ -21,6 +21,7 @@
 		A65DD755173C4E2400099A67 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A65DD754173C4E2400099A67 /* Default-568h@2x.png */; };
 		A65DD760173C4E9500099A67 /* ItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A65DD75F173C4E9500099A67 /* ItemsViewController.m */; };
 		A65DD766173C4FCB00099A67 /* BNRItemStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A65DD765173C4FCB00099A67 /* BNRItemStore.m */; };
+		A6F70E9C173D44940012BBC5 /* BNRImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F70E9B173D44940012BBC5 /* BNRImageStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,8 @@
 		A65DD75F173C4E9500099A67 /* ItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemsViewController.m; sourceTree = "<group>"; };
 		A65DD764173C4FCB00099A67 /* BNRItemStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRItemStore.h; sourceTree = "<group>"; };
 		A65DD765173C4FCB00099A67 /* BNRItemStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRItemStore.m; sourceTree = "<group>"; };
+		A6F70E9A173D44940012BBC5 /* BNRImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRImageStore.h; sourceTree = "<group>"; };
+		A6F70E9B173D44940012BBC5 /* BNRImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRImageStore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +102,8 @@
 				A62E8314173CC42E00424C48 /* DetailsViewController.h */,
 				A62E8315173CC42E00424C48 /* DetailsViewController.m */,
 				A62E8316173CC42E00424C48 /* DetailsViewController.xib */,
+				A6F70E9A173D44940012BBC5 /* BNRImageStore.h */,
+				A6F70E9B173D44940012BBC5 /* BNRImageStore.m */,
 				A65DD745173C4E2400099A67 /* Supporting Files */,
 				A65DD75E173C4E9500099A67 /* ItemsViewController.h */,
 				A65DD75F173C4E9500099A67 /* ItemsViewController.m */,
@@ -195,6 +200,7 @@
 				A65DD766173C4FCB00099A67 /* BNRItemStore.m in Sources */,
 				A62E8313173CC08700424C48 /* BNRItem.m in Sources */,
 				A62E8317173CC42E00424C48 /* DetailsViewController.m in Sources */,
+				A6F70E9C173D44940012BBC5 /* BNRImageStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

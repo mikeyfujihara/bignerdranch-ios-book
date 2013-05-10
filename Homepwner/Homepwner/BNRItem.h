@@ -24,5 +24,6 @@
 @property (nonatomic, readonly, strong) NSDate *dateCreated;
 @property (nonatomic, strong) BNRItem *containedItem;
 @property (nonatomic, weak) BNRItem *container;
+@property (nonatomic, copy) NSString *imageKey;
 
 @end

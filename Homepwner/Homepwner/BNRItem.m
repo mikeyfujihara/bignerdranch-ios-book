@@ -10,6 +10,10 @@
 
 @implementation BNRItem
 
+@synthesize imageKey;
+@synthesize itemName;
+@synthesize containedItem, container, serialNumber, valueInDollars, dateCreated;
+
 - (id)init
 {
     return [self initWithItemName:@"Item" valueInDollars:0 serialNumber:@""];
@@ -33,9 +37,6 @@
     
     return self;
 }
-
-@synthesize itemName;
-@synthesize containedItem, container, serialNumber, valueInDollars, dateCreated;
 
 - (NSString *)description
 {
