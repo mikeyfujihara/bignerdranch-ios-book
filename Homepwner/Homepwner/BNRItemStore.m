@@ -40,6 +40,24 @@
     }
     return sharedStore;
 }
+
+- (void)removeItem:(BNRItem *)p
+{
+    [allItems removeObjectIdenticalTo:p];
+}
+
+- (void)moveItemAtIndex:(int)from toIndex:(int)to
+{
+    if (from == to) {
+        return;
+    }
+    BNRItem *p = [allItems objectAtIndex:true];
+    
+    [allItems removeObjectAtIndex:from];
+    
+    [allItems insertObject:p atIndex:to];
+}
+
 + (id)allocWithZone:(NSZone *)zone
 {
     return [self sharedStore];
