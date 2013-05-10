@@ -22,6 +22,10 @@
 		A65DD760173C4E9500099A67 /* ItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A65DD75F173C4E9500099A67 /* ItemsViewController.m */; };
 		A65DD766173C4FCB00099A67 /* BNRItemStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A65DD765173C4FCB00099A67 /* BNRItemStore.m */; };
 		A6F70E9C173D44940012BBC5 /* BNRImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F70E9B173D44940012BBC5 /* BNRImageStore.m */; };
+		A6F70E9F173D67D40012BBC5 /* HomepwnerItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F70E9E173D67D40012BBC5 /* HomepwnerItemCell.m */; };
+		A6F70EA1173D68080012BBC5 /* HomepwnerItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6F70EA0173D68080012BBC5 /* HomepwnerItemCell.xib */; };
+		A6F70EA8173D74680012BBC5 /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F70EA6173D74680012BBC5 /* ImageViewController.m */; };
+		A6F70EA9173D74680012BBC5 /* ImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6F70EA7173D74680012BBC5 /* ImageViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +53,12 @@
 		A65DD765173C4FCB00099A67 /* BNRItemStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRItemStore.m; sourceTree = "<group>"; };
 		A6F70E9A173D44940012BBC5 /* BNRImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRImageStore.h; sourceTree = "<group>"; };
 		A6F70E9B173D44940012BBC5 /* BNRImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRImageStore.m; sourceTree = "<group>"; };
+		A6F70E9D173D67D40012BBC5 /* HomepwnerItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomepwnerItemCell.h; sourceTree = SOURCE_ROOT; };
+		A6F70E9E173D67D40012BBC5 /* HomepwnerItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomepwnerItemCell.m; sourceTree = SOURCE_ROOT; };
+		A6F70EA0173D68080012BBC5 /* HomepwnerItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomepwnerItemCell.xib; sourceTree = "<group>"; };
+		A6F70EA5173D74680012BBC5 /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
+		A6F70EA6173D74680012BBC5 /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
+		A6F70EA7173D74680012BBC5 /* ImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +105,12 @@
 		A65DD744173C4E2400099A67 /* Homepwner */ = {
 			isa = PBXGroup;
 			children = (
+				A6F70EA5173D74680012BBC5 /* ImageViewController.h */,
+				A6F70EA6173D74680012BBC5 /* ImageViewController.m */,
+				A6F70EA7173D74680012BBC5 /* ImageViewController.xib */,
+				A6F70E9D173D67D40012BBC5 /* HomepwnerItemCell.h */,
+				A6F70EA0173D68080012BBC5 /* HomepwnerItemCell.xib */,
+				A6F70E9E173D67D40012BBC5 /* HomepwnerItemCell.m */,
 				A62E8311173CC08700424C48 /* BNRItem.h */,
 				A62E8312173CC08700424C48 /* BNRItem.m */,
 				A65DD74D173C4E2400099A67 /* HomepwnerAppDelegate.h */,
@@ -184,6 +200,8 @@
 				A65DD753173C4E2400099A67 /* Default@2x.png in Resources */,
 				A65DD755173C4E2400099A67 /* Default-568h@2x.png in Resources */,
 				A62E8318173CC42E00424C48 /* DetailsViewController.xib in Resources */,
+				A6F70EA1173D68080012BBC5 /* HomepwnerItemCell.xib in Resources */,
+				A6F70EA9173D74680012BBC5 /* ImageViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,6 +219,8 @@
 				A62E8313173CC08700424C48 /* BNRItem.m in Sources */,
 				A62E8317173CC42E00424C48 /* DetailsViewController.m in Sources */,
 				A6F70E9C173D44940012BBC5 /* BNRImageStore.m in Sources */,
+				A6F70E9F173D67D40012BBC5 /* HomepwnerItemCell.m in Sources */,
+				A6F70EA8173D74680012BBC5 /* ImageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

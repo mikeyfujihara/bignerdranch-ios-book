@@ -74,7 +74,7 @@
     if (!s) {
         return;
     }
-    [dictionary delete:s];
+    [dictionary removeObjectForKey:s];
     NSString *path = [self imagePathForKey:s];
     [[NSFileManager defaultManager] removeItemAtPath:path error:NULL];
 }

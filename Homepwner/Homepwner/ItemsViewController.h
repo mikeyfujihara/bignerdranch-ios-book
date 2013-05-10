@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "DetailsViewController.h"
 
-@interface ItemsViewController : UITableViewController
+@interface ItemsViewController : UITableViewController <UIPopoverControllerDelegate>
 {
-
+    UIPopoverController *imagePopover;
 }
 
 - (IBAction)addNewItem:(id)sender;

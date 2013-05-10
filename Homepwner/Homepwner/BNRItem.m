@@ -9,7 +9,7 @@
 #import "BNRItem.h"
 
 @implementation BNRItem
-
+@synthesize thumbnail, thumbnailData;
 @synthesize imageKey;
 @synthesize itemName;
 @synthesize containedItem, container, serialNumber, valueInDollars, dateCreated;
@@ -87,6 +87,7 @@
         [self setSerialNumber:[aDecoder decodeObjectForKey:@"serialNumber"]];
         [self setImageKey:[aDecoder decodeObjectForKey:@"imageKey"]];
         [self setValueInDollars:[aDecoder decodeIntForKey:@"valueInDollars"]];
+        thumbnailData = [aDecoder decodeObjectForKey:@"thumbnailData"];
         
         dateCreated = [aDecoder decodeObjectForKey:@"dateCreated"];
     }
@@ -99,8 +100,49 @@
     [aCoder encodeObject:serialNumber forKey:@"serialNumber"];
     [aCoder encodeObject:dateCreated forKey:@"dateCreated"];
     [aCoder encodeObject:imageKey forKey:@"imageKey"];
+    [aCoder encodeObject:thumbnailData forKey:@"thumbnailData"];
     
     [aCoder encodeInt:valueInDollars forKey:@"valueInDollars"];
+}
+
+- (UIImage *)thumbnail
+{
+    if (!thumbnailData) {
+        return nil;
+    }
+    if (!thumbnail) {
+        thumbnail = [UIImage imageWithData:thumbnailData];
+    }
+    return thumbnail;
+}
+
+- (void)setThumbnailDataFromImage:(UIImage *)image
+{
+    CGSize origImageSize = [image size];
+    
+    CGRect newRect = CGRectMake(0, 0, 40, 40);
+    
+    float ratio = MAX(newRect.size.width / origImageSize.width, newRect.size.height / origImageSize.height);
+    
+    UIGraphicsBeginImageContextWithOptions(newRect.size, NO, 0.0);
+    
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:newRect cornerRadius:5.0];
+    [path addClip];
+    
+    CGRect projectRect;
+    projectRect.size.width = ratio * origImageSize.width;
+    projectRect.size.height = ratio * origImageSize.height;
+    projectRect.origin.x = (newRect.size.width - projectRect.size.width) / 2.0;
+    projectRect.origin.y = (newRect.size.height - projectRect.size.height) / 2.0;
+    
+    [image drawInRect:projectRect];
+    UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
+    [self setThumbnail:smallImage];
+    
+    NSData *data = UIImagePNGRepresentation(smallImage);
+    [self setThumbnailData:data];
+    
+    UIGraphicsEndImageContext();
 }
 
 @end
