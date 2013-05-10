@@ -9,7 +9,15 @@
 #import "WhereamiViewController.h"
 #import "BNRMapPoint.h"
 
+NSString * const WhereamiMapTypePrefKey = @"WhereamiMapTypePrefKey";
+
 @implementation WhereamiViewController
+
++ (void)initialize
+{
+    NSDictionary *defaults = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:WhereamiMapTypePrefKey];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+}
 
 -(void)findLocation
 {
@@ -45,14 +53,13 @@
         [locationManager setDistanceFilter:50];
         
         [locationManager setDelegate:self];
-        
-        [control addTarget:self action:@selector(didChangeSegmentControl:) forControlEvents:UIControlEventValueChanged];
     }
     return self;
 }
 
 - (void)didChangeSegmentControl:(UISegmentedControl *)c
 {
+    [[NSUserDefaults standardUserDefaults] setInteger:[control selectedSegmentIndex] forKey:WhereamiMapTypePrefKey];
     NSLog(@"Change selector");
     switch ([control selectedSegmentIndex]) {
         case 0:
@@ -113,6 +120,11 @@
 - (void)viewDidLoad
 {
     [worldView setShowsUserLocation:YES];
+    
+    NSInteger mapTypeValue = [[NSUserDefaults standardUserDefaults] integerForKey:WhereamiMapTypePrefKey];
+    
+    [control setSelectedSegmentIndex:mapTypeValue];
+    [self didChangeSegmentControl:control];
 }
 
 - (void)dealloc
