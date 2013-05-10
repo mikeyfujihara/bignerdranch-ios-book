@@ -30,11 +30,17 @@
 - (void)addNewItem:(id)sender
 {
     BNRItem *item = [[BNRItemStore sharedStore] createItem];
-    int lastRow = [[[BNRItemStore sharedStore] allItems] indexOfObject:item];
     
-    NSIndexPath *ip = [NSIndexPath indexPathForRow:lastRow inSection:0];
+    DetailsViewController *detailViewController = [[DetailsViewController alloc] initForNewItem:YES];
+    [detailViewController setItem:item];
     
-    [[self tableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:ip] withRowAnimation:UITableViewRowAnimationTop];
+    [detailViewController setDismissBlock:^{
+        [[self tableView] reloadData];
+    }];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
+    [navController setModalPresentationStyle:UIModalPresentationFormSheet];
+    [navController setModalTransitionStyle::UIModalTransitionStyleFlipHorizontal];
+    [self presentViewController:navController animated:YES completion:nil];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -82,7 +88,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DetailsViewController *detailViewController = [[DetailsViewController alloc] init];
+    DetailsViewController *detailViewController = [[DetailsViewController alloc] initForNewItem:NO];
     
     NSArray *items = [[BNRItemStore sharedStore] allItems];
     BNRItem *selectedItem = [items objectAtIndex:[indexPath row]];
