@@ -18,7 +18,9 @@
     
     ItemsViewController *ivc = [[ItemsViewController alloc] init];
     
-    [[self window] setRootViewController:ivc];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:ivc];
+    
+    [[self window] setRootViewController:navController];
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
