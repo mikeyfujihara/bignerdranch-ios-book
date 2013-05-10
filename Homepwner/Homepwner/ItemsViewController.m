@@ -20,7 +20,7 @@
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
         UINavigationItem *n = [self navigationItem];
-        [n setTitle:@"Homepwner"];
+        [n setTitle:NSLocalizedString(@"Homepwner", @"Name of application")];
         
         UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewItem:)];
         
@@ -74,7 +74,9 @@
     [cell setTableView:tableView];
     [[cell nameLabel] setText:[item itemName]];
     [[cell serialNumberLabel] setText:[item serialNumber]];
-    [[cell valueLabel] setText:[NSString stringWithFormat:@"$%d", [item valueInDollars]]];
+    
+    NSString *currencySymbol = [[NSLocale currentLocale] objectForKey:NSLocaleCurrencySymbol];
+    [[cell valueLabel] setText:[NSString stringWithFormat:@"%@%d", currencySymbol, [item valueInDollars]]];
     [[cell thumbnailView] setImage:[item thumbnail]];
     
     return cell;
