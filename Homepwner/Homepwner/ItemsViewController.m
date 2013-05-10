@@ -11,7 +11,7 @@
 #import "BNRItem.h"
 #import "HomepwnerItemCell.h"
 #import "BNRImageStore.h"
-#import "ImageViewController.h";
+#import "ImageViewController.h"
 
 @implementation ItemsViewController
 

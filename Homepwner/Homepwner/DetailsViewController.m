@@ -10,6 +10,7 @@
 #import "BNRItem.h"
 #import "BNRImageStore.h"
 #import "BNRItemStore.h"
+#import "AssetTypePicker.h"
 
 @implementation DetailsViewController
 @synthesize item;
@@ -60,7 +61,8 @@
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     
-    [dateLabel setText:[dateFormatter stringFromDate:[item dateCreated]]];
+    NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:[item dateCreated]];
+    [dateLabel setText:[dateFormatter stringFromDate:date]];
     
     NSString *imageKey = [item imageKey];
     
@@ -71,6 +73,11 @@
     } else {
         [imageView setImage:nil];
     }
+    NSString *typeLabel = [[item assetType] valueForKey:@"label"];
+    if (!typeLabel) {
+        typeLabel = @"None";
+    }
+    [assetTypeButton setTitle:[NSString stringWithFormat:@"Type: %@", typeLabel] forState:UIControlStateNormal];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)io
@@ -134,6 +141,16 @@
 - (IBAction)backgroundTapped:(id)sender
 {
     [[self view] endEditing:YES];
+}
+
+- (IBAction)showAssetTypePicker:(id)sender
+{
+    [[self view] endEditing:YES];
+    
+    AssetTypePicker *assetTypePicker = [[AssetTypePicker alloc] init];
+    [assetTypePicker setItem:item];
+    
+    [[self navigationController] pushViewController:assetTypePicker animated:YES];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
