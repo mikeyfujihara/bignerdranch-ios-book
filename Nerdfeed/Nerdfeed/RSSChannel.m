@@ -49,6 +49,29 @@
     currentString = nil;
     if ([elementName isEqual:@"channel"]) {
         [parser setDelegate:parentParserDelegate];
+        [self trimItemTitles];
+    }
+}
+
+- (void)trimItemTitles
+{
+    NSRegularExpression *reg = [[NSRegularExpression alloc] initWithPattern:@".* :: (.*) :: .*" options:0 error:nil];
+    
+    for (RSSItem *i in items) {
+        NSString *itemTitle = [i title];
+        
+        NSArray *matches = [reg matchesInString:itemTitle options:0 range:NSMakeRange(0, [itemTitle length])];
+        if ([matches count] > 0) {
+            NSTextCheckingResult *result = [matches objectAtIndex:0];
+            NSRange r = [result range];
+            NSLog(@"Match at {%d, %d} for %@!", r.location, r.length, itemTitle);
+            
+            if ([result numberOfRanges] == 2) {
+                NSRange r = [result rangeAtIndex:1];
+                
+                [i setTitle:[itemTitle substringWithRange:r]];
+            }
+        }
     }
 }
 

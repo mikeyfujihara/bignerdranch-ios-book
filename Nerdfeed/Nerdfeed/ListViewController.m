@@ -10,6 +10,7 @@
 #import "RSSChannel.h"
 #import "RSSItem.h"
 #import "WebViewController.h"
+#import "ChannelViewController.h"
 
 @implementation ListViewController
 @synthesize webViewController;
@@ -18,6 +19,9 @@
 {
     self = [super initWithStyle:style];
     if (self) {
+        UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithTitle:@"Info" style:UIBarButtonItemStyleBordered target:self action:@selector(showInfo:)];
+        [[self navigationItem] setRightBarButtonItem:bbi];
+        
         [self fetchEntries];
     }
     return self;
@@ -99,17 +103,52 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [[self navigationController] pushViewController:webViewController animated:YES];
+    if (![self splitViewController]) {
+        [[self navigationController] pushViewController:webViewController animated:YES];
+    } else {
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webViewController];
+        
+        NSArray *vcs = [NSArray arrayWithObjects:[self navigationController], nav, nil];
+        
+        [[self splitViewController] setViewControllers:vcs];
+        
+        [[self splitViewController] setDelegate:webViewController];
+    }
     
     RSSItem *entry = [[channel items] objectAtIndex:[indexPath row]];
     
-    NSURL *url = [NSURL URLWithString:[entry link]];
+    [webViewController listViewController:self handleObject:entry];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)io
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        return YES;
+    }
+    return io == UIInterfaceOrientationPortrait;
+}
+
+- (void)showInfo:(id)sender
+{
+    ChannelViewController *channelViewController = [[ChannelViewController alloc] initWithStyle:UITableViewStyleGrouped];
     
-    NSURLRequest *req = [NSURLRequest requestWithURL:url];
-    
-    [[webViewController webView] loadRequest:req];
-    
-    [[webViewController navigationItem] setTitle:[entry title]];
+    if ([self splitViewController]) {
+        UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:channelViewController];
+        
+        NSArray *vcs = [NSArray arrayWithObjects:[self navigationController], nvc, nil];
+        
+        [[self splitViewController] setViewControllers:vcs];
+        
+        [[self splitViewController] setDelegate:channelViewController];
+        
+        NSIndexPath *selectedRow = [[self tableView] indexPathForSelectedRow];
+        if (selectedRow) {
+            [[self tableView] deselectRowAtIndexPath:selectedRow animated:YES];
+        }
+    } else {
+        [[self navigationController] pushViewController:channelViewController animated:YES];
+    }
+    [channelViewController listViewController:self handleObject:channel];
 }
 
 @end

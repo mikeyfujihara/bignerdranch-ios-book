@@ -1,28 +1,36 @@
 //
-//  WebViewController.m
+//  ChannelViewController.m
 //  Nerdfeed
 //
 //  Created by Mikey Fujihara on 5/10/13.
 //  Copyright (c) 2013 Mikey Fujihara. All rights reserved.
 //
 
-#import "WebViewController.h"
-#import "RSSItem.h"
+#import "ChannelViewController.h"
+#import "RSSChannel.h"
 
-@implementation WebViewController
+@implementation ChannelViewController
 
-- (void)loadView
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    CGRect screenFrame = [[UIScreen mainScreen] applicationFrame];
-    UIWebView *wv = [[UIWebView alloc] initWithFrame:screenFrame];
-    [wv setScalesPageToFit:YES];
-    
-    [self setView:wv];
+    return 2;
 }
 
-- (UIWebView *)webView
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return (UIWebView *)[self view];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"UITableViewCell"];
+    }
+    
+    if ([indexPath row] == 0) {
+        [[cell textLabel] setText:@"Title"];
+        [[cell detailTextLabel] setText:[channel title]];
+    } else {
+        [[cell textLabel] setText:@"Info"];
+        [[cell detailTextLabel] setText:[channel infoString]];
+    }
+    return cell;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)io
@@ -35,16 +43,11 @@
 
 - (void)listViewController:(ListViewController *)lvc handleObject:(id)object
 {
-    RSSItem *entry = object;
-    
-    if (![entry isKindOfClass:[RSSItem class]]) {
+    if (![object isKindOfClass:[RSSChannel class]]) {
         return;
     }
-    NSURL *url = [NSURL URLWithString:[entry link]];
-    NSURLRequest *req = [NSURLRequest requestWithURL:url];
-    [[self webView] loadRequest:req];
-    
-    [[self navigationItem] setTitle:[entry title]];
+    channel = object;
+    [[self tableView] reloadData];
 }
 
 - (void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
