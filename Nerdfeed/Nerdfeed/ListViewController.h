@@ -11,12 +11,15 @@
 @class RSSChannel;
 @class WebViewController;
 
-@interface ListViewController : UITableViewController <NSXMLParserDelegate>
+typedef enum {
+    ListViewControllerRSSTypeBNR,
+    ListViewControllerRSSTypeApple
+} ListViewControllerRSSType;
+
+@interface ListViewController : UITableViewController
 {
-    NSURLConnection *connection;
-    NSMutableData *xmlData;
-    
     RSSChannel *channel;
+    ListViewControllerRSSType rssType;
 }
 @property (nonatomic, strong) WebViewController *webViewController;
 - (void)fetchEntries;

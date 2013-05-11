@@ -11,6 +11,7 @@
 #import "RSSItem.h"
 #import "WebViewController.h"
 #import "ChannelViewController.h"
+#import "BNRFeedStore.h"
 
 @implementation ListViewController
 @synthesize webViewController;
@@ -21,6 +22,12 @@
     if (self) {
         UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithTitle:@"Info" style:UIBarButtonItemStyleBordered target:self action:@selector(showInfo:)];
         [[self navigationItem] setRightBarButtonItem:bbi];
+        
+        UISegmentedControl *rssTypeControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"BNR", @"Apple", nil]];
+        [rssTypeControl setSelectedSegmentIndex:0];
+        [rssTypeControl setSegmentedControlStyle:UISegmentedControlStyleBar];
+        [rssTypeControl addTarget:self action:@selector(changeType:) forControlEvents:UIControlEventValueChanged];
+        [[self navigationItem] setTitleView:rssTypeControl];
         
         [self fetchEntries];
     }
@@ -46,58 +53,26 @@
 
 - (void)fetchEntries
 {
-    xmlData = [[NSMutableData alloc] init];
+    UIView *currentTitleView = [[self navigationItem] titleView];
     
-    NSURL *url = [NSURL URLWithString:@"http://forums.bignerdranch.com/smartfeed.php?"
-                  @"limit=1_DAY&sort_by=standard&feed_type=RSS2.0&feed_style=COMPACT"];
-    
-    NSURLRequest *req = [NSURLRequest requestWithURL:url];
-    
-    connection = [[NSURLConnection alloc] initWithRequest:req delegate:self startImmediately:YES];
-}
-
--(void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data
-{
-    [xmlData appendData:data];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)conn
-{
-    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:xmlData];
-    
-    [parser setDelegate:self];
-    
-    [parser parse];
-    
-    xmlData = nil;
-    
-    connection = nil;
-    
-    [[self tableView] reloadData];
-    NSLog(@"%@\n %@\n %@\n", channel, [channel title], [channel infoString]);
-}
-
-- (void)connection:(NSURLConnection *)conn didFailWithError:(NSError *)error
-{
-    connection = nil;
-    
-    xmlData = nil;
-    
-    NSString *errorString = [NSString stringWithFormat:@"Fetch failed: %@", [error localizedDescription]];
-    
-    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    
-    [av show];
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
-{
-    NSLog(@"%@ found a %@ element", self, elementName);
-    if ([elementName isEqual:@"channel"]) {
-        channel = [[RSSChannel alloc] init];
+    UIActivityIndicatorView *aiView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    [[self navigationItem] setTitleView:aiView];
+    [aiView startAnimating];
+    void (^completionBlock)(RSSChannel *obj, NSError *err)  = ^(RSSChannel *obj, NSError *err){
+        [[self navigationItem] setTitleView:currentTitleView];
         
-        [channel setParentParserDelegate:self];
-        [parser setDelegate:channel];
+        if (!err) {
+            channel = obj;
+            [[self tableView] reloadData];
+        } else {
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error" message:[err localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [av show];
+        }
+    };
+    if (rssType == ListViewControllerRSSTypeBNR) {
+        [[BNRFeedStore sharedStore] fetchRSSFeedWithCompletion:completionBlock];
+    } else if (rssType == ListViewControllerRSSTypeApple) {
+        [[BNRFeedStore sharedStore] fetchTopSongs:10 withCompletion:completionBlock];
     }
 }
 
@@ -149,6 +124,12 @@
         [[self navigationController] pushViewController:channelViewController animated:YES];
     }
     [channelViewController listViewController:self handleObject:channel];
+}
+
+- (void)changeType:(id)sender
+{
+    rssType = [sender selectedSegmentIndex];
+    [self fetchEntries];
 }
 
 @end
