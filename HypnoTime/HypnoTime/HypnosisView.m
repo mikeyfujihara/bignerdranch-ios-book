@@ -17,6 +17,27 @@
     if (self) {
         [self setBackgroundColor:[UIColor clearColor]];
         [self setCircleColor:[UIColor lightGrayColor]];
+        
+        boxLayer = [[CALayer alloc] init];
+        
+        [boxLayer setBounds:CGRectMake(0.0, 0.0, 85.0, 85.0)];
+        [boxLayer setPosition:CGPointMake(160.0, 100.0)];
+        
+        UIColor *reddish = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5];
+        CGColorRef cgReddish = [reddish CGColor];
+        [boxLayer setBackgroundColor:cgReddish];
+        
+        UIImage *layerImage = [UIImage imageNamed:@"Hypno.png"];
+        
+        CGImageRef image = [layerImage CGImage];
+        
+        [boxLayer setContents:(__bridge id)image];
+        
+        [boxLayer setContentsRect:CGRectMake(-0.1, -0.1, 1.2, 1.2)];
+        
+        [boxLayer setContentsGravity:kCAGravityResizeAspect];
+        
+        [[self layer] addSublayer:boxLayer];
     }
     return self;
 }
@@ -79,6 +100,23 @@
 {
     circleColor = clr;
     [self setNeedsDisplay];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *t = [touches anyObject];
+    CGPoint p = [t locationInView:self];
+    [boxLayer setPosition:p];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *t = [touches anyObject];
+    CGPoint p = [t locationInView:self];
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    [boxLayer setPosition:p];
+    [CATransaction commit];
 }
 
 @end

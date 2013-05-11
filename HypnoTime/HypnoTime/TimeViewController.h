@@ -12,7 +12,8 @@
 {
     __weak IBOutlet UILabel *timeLabel;
 }
-
+- (void)spinTimeLabel;
+- (void)bounceTimeLabel;
 -(IBAction)showCurrentTime:(id)sender;
 
 @end

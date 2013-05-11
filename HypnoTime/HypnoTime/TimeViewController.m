@@ -7,6 +7,7 @@
 //
 
 #import "TimeViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation TimeViewController
 
@@ -32,6 +33,7 @@
     [formatter setTimeStyle:NSDateFormatterMediumStyle];
     
     [timeLabel setText:[formatter stringFromDate:now]];
+    [self bounceTimeLabel];
 }
 
 - (void)viewDidLoad
@@ -52,6 +54,47 @@
 {
     NSLog(@"CurrentTimeViewController will DISappear");
     [super viewWillDisappear:animated];
+}
+- (void)spinTimeLabel
+{
+    CABasicAnimation *spin = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+    
+    [spin setDelegate:self];
+    
+    [spin setToValue:[NSNumber numberWithFloat:M_PI * 2]];
+    [spin setDuration:1.0];
+    
+    CAMediaTimingFunction *tf = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    [spin setTimingFunction:tf];
+    
+    [[timeLabel layer] addAnimation:spin forKey:@"spinAnimation"];
+}
+
+- (void)bounceTimeLabel
+{
+    CAKeyframeAnimation *bounce = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+    
+    CATransform3D forward = CATransform3DMakeScale(1.3, 1.3, 1);
+    CATransform3D back = CATransform3DMakeScale(0.7, 0.7, 1);
+    CATransform3D forward2 = CATransform3DMakeScale(1.2, 1.2, 1);
+    CATransform3D back2 = CATransform3DMakeScale(0.9, 0.9, 1);
+    
+    [bounce setValues:[NSArray arrayWithObjects:
+                       [NSValue valueWithCATransform3D:CATransform3DIdentity],
+                       [NSValue valueWithCATransform3D:forward],
+                       [NSValue valueWithCATransform3D:back],
+                       [NSValue valueWithCATransform3D:forward2],
+                       [NSValue valueWithCATransform3D:back2],
+                       [NSValue valueWithCATransform3D:CATransform3DIdentity],
+                       nil]];
+    
+    [bounce setDuration:0.6];
+    [[timeLabel layer] addAnimation:bounce forKey:@"bounceAnimation"];
+}
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    NSLog(@"%@ finished: %d", anim, flag);
 }
 
 @end

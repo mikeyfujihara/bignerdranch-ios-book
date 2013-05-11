@@ -22,6 +22,7 @@
 		A65DD6F6173C1AF300099A67 /* TimeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A65DD6F5173C1AF300099A67 /* TimeViewController.xib */; };
 		A65DD6F9173C3C7000099A67 /* Time.png in Resources */ = {isa = PBXBuildFile; fileRef = A65DD6F7173C3C7000099A67 /* Time.png */; };
 		A65DD6FC173C3CB000099A67 /* Hypno.png in Resources */ = {isa = PBXBuildFile; fileRef = A65DD6FB173C3CB000099A67 /* Hypno.png */; };
+		A673B49C173DE53E00B23F9F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A673B49B173DE53E00B23F9F /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 		A65DD6F5173C1AF300099A67 /* TimeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimeViewController.xib; sourceTree = "<group>"; };
 		A65DD6F7173C3C7000099A67 /* Time.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Time.png; sourceTree = "<group>"; };
 		A65DD6FB173C3CB000099A67 /* Hypno.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Hypno.png; sourceTree = "<group>"; };
+		A673B49B173DE53E00B23F9F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A673B49C173DE53E00B23F9F /* QuartzCore.framework in Frameworks */,
 				A65DD6D0173C191A00099A67 /* UIKit.framework in Frameworks */,
 				A65DD6D2173C191A00099A67 /* Foundation.framework in Frameworks */,
 				A65DD6D4173C191A00099A67 /* CoreGraphics.framework in Frameworks */,
@@ -66,6 +69,7 @@
 		A65DD6C3173C191A00099A67 = {
 			isa = PBXGroup;
 			children = (
+				A673B49B173DE53E00B23F9F /* QuartzCore.framework */,
 				A65DD6D5173C191A00099A67 /* HypnoTime */,
 				A65DD6CE173C191A00099A67 /* Frameworks */,
 				A65DD6CD173C191A00099A67 /* Products */,
@@ -311,6 +315,7 @@
 				A65DD6EB173C191A00099A67 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
