@@ -90,4 +90,45 @@
     }
 }
 
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:items forKey:@"items"];
+    [aCoder encodeObject:title forKey:@"title"];
+    [aCoder encodeObject:infoString forKey:@"infoString"];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self) {
+        items = [aDecoder decodeObjectForKey:@"items"];
+        [self setInfoString:[aDecoder decodeObjectForKey:@"infoString"]];
+        [self setTitle:[aDecoder decodeObjectForKey:@"title"]];
+    }
+    return self;
+}
+
+- (void)addItemsFromChannel:(RSSChannel *)otherChannel
+{
+    for (RSSItem *i in [otherChannel items]) {
+        if (![[self items] containsObject:i]) {
+            [[self items] addObject:i];
+        }
+    }
+    [[self items] sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [[obj2 publicationDate] compare:[obj1 publicationDate]];
+    }];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    RSSChannel *c = [[[self class] alloc] init];
+    
+    [c setTitle:[self title]];
+    [c setInfoString:[self infoString]];
+    c->items = [items mutableCopy];
+    
+    return c;
+}
+
 @end

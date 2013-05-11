@@ -59,6 +59,7 @@
     [[self navigationItem] setTitleView:aiView];
     [aiView startAnimating];
     void (^completionBlock)(RSSChannel *obj, NSError *err)  = ^(RSSChannel *obj, NSError *err){
+        NSLog(@"Completion block called");
         [[self navigationItem] setTitleView:currentTitleView];
         
         if (!err) {
@@ -70,10 +71,32 @@
         }
     };
     if (rssType == ListViewControllerRSSTypeBNR) {
-        [[BNRFeedStore sharedStore] fetchRSSFeedWithCompletion:completionBlock];
+        channel = [[BNRFeedStore sharedStore] fetchRSSFeedWithCompletion:^(RSSChannel *obj, NSError *err) {
+            [[self navigationItem] setTitleView:currentTitleView];
+            if (!err) {
+                int currentItemCount = [[channel items] count];
+                
+                channel = obj;
+                
+                int newItemCount = [[channel items] count];
+                
+                int itemDelta = newItemCount - currentItemCount;
+                if (itemDelta > 0) {
+                    NSMutableArray *rows = [NSMutableArray array];
+                    for (int i = 0; i < itemDelta; i++) {
+                        NSIndexPath *ip = [NSIndexPath indexPathForRow:i inSection:0];
+                        [rows addObject:ip];
+                    }
+                    
+                    [[self tableView] insertRowsAtIndexPaths:rows withRowAnimation:UITableViewRowAnimationTop];
+                }
+            }
+        }];
+        [[self tableView] reloadData];
     } else if (rssType == ListViewControllerRSSTypeApple) {
         [[BNRFeedStore sharedStore] fetchTopSongs:10 withCompletion:completionBlock];
     }
+    NSLog(@"Executing code at the end of fetchEntries");
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
