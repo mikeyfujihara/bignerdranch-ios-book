@@ -48,6 +48,11 @@
     RSSItem *item = [[channel items] objectAtIndex:[indexPath row]];
     [[cell textLabel] setText:[item title]];
     
+    if ([[BNRFeedStore sharedStore] hasItemBeenRead:item]) {
+        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    } else {
+        [cell setAccessoryType:UITableViewCellAccessoryNone];
+    }
     return cell;
 }
 
@@ -114,6 +119,10 @@
     }
     
     RSSItem *entry = [[channel items] objectAtIndex:[indexPath row]];
+    
+    [[BNRFeedStore sharedStore] markItemAsRead:entry];
+    
+    [[[self tableView] cellForRowAtIndexPath:indexPath] setAccessoryType:UITableViewCellAccessoryCheckmark];
     
     [webViewController listViewController:self handleObject:entry];
 }

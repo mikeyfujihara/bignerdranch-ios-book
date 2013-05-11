@@ -9,8 +9,32 @@
 #import "BNRFeedStore.h"
 #import "RSSChannel.h"
 #import "BNRConnection.h"
+#import "RSSItem.h"
 
 @implementation BNRFeedStore
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        model = [NSManagedObjectModel mergedModelFromBundles:nil];
+        
+        NSPersistentStoreCoordinator *psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+        NSError *error = nil;
+        NSString *dbPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        dbPath = [dbPath stringByAppendingPathComponent:@"feed.db"];
+        NSURL *dbURL = [NSURL fileURLWithPath:dbPath];
+        
+        if (![psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:dbURL options:nil error:&error]) {
+            [NSException raise:@"Open failed" format:@"Reason: %@", [error localizedDescription]];
+        }
+        context = [[NSManagedObjectContext alloc] init];
+        [context setPersistentStoreCoordinator:psc];
+        
+        [context setUndoManager:nil];
+    }
+    return self;
+}
 
 + (BNRFeedStore *)sharedStore
 {
@@ -104,6 +128,31 @@
 - (NSDate *)topSongsCacheDate
 {
     return [[NSUserDefaults standardUserDefaults] objectForKey:@"topSongsCacheDate"];
+}
+
+- (void)markItemAsRead:(RSSItem *)item
+{
+    if ([self hasItemBeenRead:item]) {
+        return;
+    }
+    NSManagedObject *obj = [NSEntityDescription insertNewObjectForEntityForName:@"Link" inManagedObjectContext:context];
+    
+    [obj setValue:[item link] forKey:@"urlString"];
+    [context save:nil];
+}
+
+- (BOOL)hasItemBeenRead:(RSSItem *)item
+{
+    NSFetchRequest *req = [[NSFetchRequest alloc] initWithEntityName:@"Link"];
+    
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"urlString like %@", [item link]];
+    [req setPredicate:pred];
+    
+    NSArray *entries = [context executeFetchRequest:req error:nil];
+    if ([entries count] > 0) {
+        return YES;
+    }
+    return NO;
 }
 
 @end

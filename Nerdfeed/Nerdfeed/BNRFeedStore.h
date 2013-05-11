@@ -7,10 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
 @class RSSChannel;
 
+@class RSSItem;
+
 @interface BNRFeedStore : NSObject
+{
+    NSManagedObjectContext *context;
+    NSManagedObjectModel *model;
+}
 
 @property (nonatomic, strong) NSDate *topSongsCacheDate;
 
@@ -18,5 +25,8 @@
 
 - (RSSChannel *)fetchRSSFeedWithCompletion:(void (^)(RSSChannel *obj, NSError *err))block;
 - (void)fetchTopSongs:(int)count withCompletion:(void (^)(RSSChannel *obj, NSError *err))block;
+
+- (void)markItemAsRead:(RSSItem *)item;
+- (BOOL)hasItemBeenRead:(RSSItem *)item;
 
 @end
