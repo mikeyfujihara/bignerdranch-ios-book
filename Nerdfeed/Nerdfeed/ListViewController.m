@@ -20,6 +20,7 @@
 {
     self = [super initWithStyle:style];
     if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(storeUpdated:) name:BNRFeedStoreUpdateNotification object:nil];
         UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithTitle:@"Info" style:UIBarButtonItemStyleBordered target:self action:@selector(showInfo:)];
         [[self navigationItem] setRightBarButtonItem:bbi];
         
@@ -162,6 +163,11 @@
 {
     rssType = [sender selectedSegmentIndex];
     [self fetchEntries];
+}
+
+- (void)storeUpdate:(NSNotification *)note
+{
+    [[self tableView] reloadData];
 }
 
 @end

@@ -11,21 +11,35 @@
 #import "BNRConnection.h"
 #import "RSSItem.h"
 
+NSString * const BNRFeedStoreUpdateNotification = @"BNRFeedStoreNotification";
+
 @implementation BNRFeedStore
 
 - (id)init
 {
     self = [super init];
     if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contentChange:) name:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:nil];
+        
         model = [NSManagedObjectModel mergedModelFromBundles:nil];
         
         NSPersistentStoreCoordinator *psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
-        NSError *error = nil;
-        NSString *dbPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        dbPath = [dbPath stringByAppendingPathComponent:@"feed.db"];
-        NSURL *dbURL = [NSURL fileURLWithPath:dbPath];
         
-        if (![psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:dbURL options:nil error:&error]) {
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSURL *ubContainer = [fm URLForUbiquityContainerIdentifier:nil];
+        
+        NSMutableDictionary *options = [NSMutableDictionary dictionary];
+        [options setObject:@"nerdfeed" forKey:NSPersistentStoreUbiquitousContentNameKey];
+        [options setObject:ubContainer forKey:NSPersistentStoreUbiquitousContentURLKey];
+        
+        
+        NSError *error = nil;
+        NSURL *nosyncDir = [ubContainer URLByAppendingPathComponent:@"feed.nosync"];
+        [fm createDirectoryAtURL:nosyncDir withIntermediateDirectories:YES attributes:nil error:nil];
+        
+        NSURL *dbURL = [nosyncDir URLByAppendingPathComponent:@"feed.db"];
+
+        if (![psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:dbURL options:options error:&error]) {
             [NSException raise:@"Open failed" format:@"Reason: %@", [error localizedDescription]];
         }
         context = [[NSManagedObjectContext alloc] init];
@@ -44,6 +58,7 @@
     }
     return feedStore;
 }
+
 - (RSSChannel *)fetchRSSFeedWithCompletion:(void (^)(RSSChannel *, NSError *))block
 {
     NSURL *url = [NSURL URLWithString:@"http://forums.bignerdranch.com/" @"smartfeed.php?limit=1_DAY&sort_by=standard" @"&feed_type=RSS2.0&feed_style=COMPACT"];
@@ -153,6 +168,16 @@
         return YES;
     }
     return NO;
+}
+
+- (void)contentChange:(NSNotification *)note
+{
+    [context mergeChangesFromContextDidSaveNotification:note];
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        NSNotification *updateNote = [NSNotification notificationWithName:BNRFeedStoreUpdateNotification object:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:updateNote];
+    }];
 }
 
 @end

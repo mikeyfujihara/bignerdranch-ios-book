@@ -58,6 +58,7 @@
 		A673B537173E43D000B23F9F /* JSONSerializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONSerializable.h; sourceTree = "<group>"; };
 		A673B538173E5A2A00B23F9F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		A673B53B173E5A5C00B23F9F /* Nerdfeed.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Nerdfeed.xcdatamodel; sourceTree = "<group>"; };
+		A67D0BD7174199B800A3721F /* Nerdfeed.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Nerdfeed.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +108,7 @@
 		A673B4DF173DF6AC00B23F9F /* Nerdfeed */ = {
 			isa = PBXGroup;
 			children = (
+				A67D0BD7174199B800A3721F /* Nerdfeed.entitlements */,
 				A673B4E8173DF6AC00B23F9F /* NerdfeedAppDelegate.h */,
 				A673B4E9173DF6AC00B23F9F /* NerdfeedAppDelegate.m */,
 				A673B4E0173DF6AC00B23F9F /* Supporting Files */,
@@ -297,10 +299,13 @@
 		A673B4F4173DF6AC00B23F9F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Nerdfeed/Nerdfeed.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Mikey Fujihara (V89UB4628C)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Nerdfeed/Nerdfeed-Prefix.pch";
 				INFOPLIST_FILE = "Nerdfeed/Nerdfeed-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "F02C42D6-2330-40A1-A9DB-18E9C447780E";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -309,10 +314,13 @@
 		A673B4F5173DF6AC00B23F9F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Nerdfeed/Nerdfeed.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Mikey Fujihara (V89UB4628C)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Nerdfeed/Nerdfeed-Prefix.pch";
 				INFOPLIST_FILE = "Nerdfeed/Nerdfeed-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "F02C42D6-2330-40A1-A9DB-18E9C447780E";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
